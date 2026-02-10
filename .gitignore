@@ -1,0 +1,4 @@
+tiktok_videos/
+extracted_text/
+*.json
+.env

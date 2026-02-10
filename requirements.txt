@@ -1,0 +1,5 @@
+openai-whisper
+pytesseract
+opencv-python
+Pillow
+anthropic
