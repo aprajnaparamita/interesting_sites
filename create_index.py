@@ -253,6 +253,11 @@ def create_markdown_index(categorized, all_websites):
     """Create a human-readable markdown version of the index."""
     md_file = "website_index.md"
     
+    def ensure_protocol(url):
+        if url and url != 'N/A' and not url.startswith(('http://', 'https://')):
+            return 'https://' + url
+        return url
+    
     with open(md_file, 'w') as f:
         f.write("# Website Index\n\n")
         f.write(f"Total websites: {len(all_websites)}\n\n")
@@ -270,17 +275,18 @@ def create_markdown_index(categorized, all_websites):
             
             for site in sites:
                 url = site.get('url', 'N/A')
+                link_url = ensure_protocol(url)
                 name = site.get('name', url)
                 desc = site.get('description', 'No description')
                 source = site.get('source_video', {})
                 
                 # Make header clickable if URL exists
                 if url and url != 'N/A':
-                    f.write(f"### [{name}]({url})\n")
+                    f.write(f"### [{name}]({link_url})\n")
                 else:
                     f.write(f"### {name}\n")
                     
-                f.write(f"**URL:** [{url}]({url})\n\n")
+                f.write(f"**URL:** [{url}]({link_url})\n\n")
                 f.write(f"{desc}\n\n")
                 f.write(f"*Source: [{source.get('title', 'Video')}]({source.get('url', '#')}) "
                        f"({source.get('views', 0):,} views)*\n\n")
