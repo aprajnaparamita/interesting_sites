@@ -236,6 +236,19 @@ def main():
     # Also create a readable markdown version
     create_markdown_index(categorized, unique_websites)
 
+def slugify(text):
+    """Create a GitHub-compatible slug from text."""
+    # Lowercase
+    text = text.lower()
+    # Remove non-alphanumeric characters (except spaces and hyphens)
+    text = ''.join(c for c in text if c.isalnum() or c in ' -')
+    # Replace spaces with hyphens
+    text = text.replace(' ', '-')
+    # Remove consecutive hyphens
+    while '--' in text:
+        text = text.replace('--', '-')
+    return text
+
 def create_markdown_index(categorized, all_websites):
     """Create a human-readable markdown version of the index."""
     md_file = "website_index.md"
@@ -247,7 +260,8 @@ def create_markdown_index(categorized, all_websites):
         # Table of Contents
         f.write("## Table of Contents\n\n")
         for category, sites in categorized.items():
-            anchor = category.lower().replace(" ", "-").replace("&", "").replace(",", "")
+            header_text = f"{category} ({len(sites)} sites)"
+            anchor = slugify(header_text)
             f.write(f"- [{category}](#{anchor}) ({len(sites)})\n")
         f.write("\n---\n\n")
         
