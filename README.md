@@ -2,6 +2,8 @@
 
 This project downloads TikTok videos, extracts text from audio and video, and uses AI to create an organized index of websites.
 
+I made this as a repository for my own reference and intend to try every tool and make a report on it. See the final index [here][https://github.com/aprajnaparamita/interesting_sites/blob/main/website_index.md].
+
 ## Installation
 
 ### 1. Install System Dependencies

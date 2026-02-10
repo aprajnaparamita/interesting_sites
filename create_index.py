@@ -243,7 +243,13 @@ def create_markdown_index(categorized, all_websites):
     with open(md_file, 'w') as f:
         f.write("# Website Index\n\n")
         f.write(f"Total websites: {len(all_websites)}\n\n")
-        f.write("---\n\n")
+        
+        # Table of Contents
+        f.write("## Table of Contents\n\n")
+        for category, sites in categorized.items():
+            anchor = category.lower().replace(" ", "-").replace("&", "").replace(",", "")
+            f.write(f"- [{category}](#{anchor}) ({len(sites)})\n")
+        f.write("\n---\n\n")
         
         for category, sites in categorized.items():
             f.write(f"## {category} ({len(sites)} sites)\n\n")
@@ -254,8 +260,13 @@ def create_markdown_index(categorized, all_websites):
                 desc = site.get('description', 'No description')
                 source = site.get('source_video', {})
                 
-                f.write(f"### {name}\n")
-                f.write(f"**URL:** {url}\n\n")
+                # Make header clickable if URL exists
+                if url and url != 'N/A':
+                    f.write(f"### [{name}]({url})\n")
+                else:
+                    f.write(f"### {name}\n")
+                    
+                f.write(f"**URL:** [{url}]({url})\n\n")
                 f.write(f"{desc}\n\n")
                 f.write(f"*Source: [{source.get('title', 'Video')}]({source.get('url', '#')}) "
                        f"({source.get('views', 0):,} views)*\n\n")
